@@ -1,6 +1,6 @@
 // import checkNumInputs from "./checkNumInputs";
 import {postData} from "../services/request";
-const forms = () => {
+const forms = (state) => {
   const form = document.querySelectorAll('form'),
         input = document.querySelectorAll('input'),
         upload = document.querySelectorAll('[name="upload"');
@@ -67,6 +67,12 @@ const forms = () => {
       statusMessage.appendChild(textMessage);         //
 
       const formData = new FormData(item); //собираем все данные с формы
+      if (item.getAttribute('data-calc') === 'end') {
+        for (let key in state) {
+          formData.append(key, state[key]);
+        }
+      }
+
       let api;
       item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question; //наход форму с классом и отправляем на заданный сервер
       console.log(api);
